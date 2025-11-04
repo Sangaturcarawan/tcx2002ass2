@@ -1,0 +1,72 @@
+QUESTIONS (10 marks)
+[Answer these in your Answer document]
+1. After performing EDA on the Boston Housing dataset, which variable shows
+the strongest negative correlation with the target variable 'medv' (median
+home value)? (1 marks)
+
+'lstat' shows the strongest negative correlation with the target variable 'medv'.
+The correlation matrix shows that there is a correlation coefficient of -0.7376627 between these two variables which is the most negative.
+
+2. Share your final fine-tuned trained model summary below and provide
+interpretation of the summary in bullet points including variable coefficients.
+(1 + 2 marks)
+
+> summary(full_mdl)
+
+Call:
+lm(formula = medv ~ ., data = train)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-15.491  -2.753  -0.499   1.942  24.549 
+
+Coefficients:
+              Estimate Std. Error t value
+(Intercept)  33.593363   5.735441   5.857
+crim         -0.091542   0.038713  -2.365
+zn            0.029760   0.016233   1.833
+indus        -0.043242   0.070898  -0.610
+chas          2.911364   0.997890   2.918
+nox         -16.335169   4.467780  -3.656
+rm            3.964627   0.458191   8.653
+age           0.001477   0.015580   0.095
+dis          -1.271695   0.230636  -5.514
+rad           0.276750   0.074258   3.727
+tax          -0.010817   0.004152  -2.605
+ptratio      -0.928753   0.152052  -6.108
+b             0.008713   0.002988   2.916
+lstat        -0.484062   0.062091  -7.796
+            Pr(>|t|)    
+(Intercept) 1.11e-08 ***
+crim        0.018605 *  
+zn          0.067624 .  
+indus       0.542320    
+chas        0.003762 ** 
+nox         0.000296 ***
+rm           < 2e-16 ***
+age         0.924507    
+dis         6.93e-08 ***
+rad         0.000227 ***
+tax         0.009589 ** 
+ptratio     2.74e-09 ***
+b           0.003781 ** 
+lstat       7.77e-14 ***
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 4.611 on 342 degrees of freedom
+Multiple R-squared:  0.7482,	Adjusted R-squared:  0.7386 
+F-statistic: 78.15 on 13 and 342 DF,  p-value: < 2.2e-16
+
+- intercept estimate of 33.593363 means that when all other predictors are 0, the baseline of medv is about $33 593.36
+- crim estimate of -0.091542 shows that when the crime rate rises by 1%, the median home value decreases by $92.54, and crim variable is signficant 
+
+3. What is the difference between your train and test accuracy. What does it tell
+you? (1 +1 marks)
+4. If you retain ‘rm’ in your final model, what is the coefficient for 'rm' (average
+rooms per dwelling). What is the correct business interpretation? (1 marks)
+5. Identify the top 2 predictors of the medv price based on variable importance
+analysis of your final model. (1 marks)
+6. What is the R-squared of your final model? Provide a business interpretation.
+(1 + 1 marks)
