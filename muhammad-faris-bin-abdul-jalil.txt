@@ -90,7 +90,27 @@ you? (1 +1 marks)
 
 4. If you retain ‘rm’ in your final model, what is the coefficient for 'rm' (average
 rooms per dwelling). What is the correct business interpretation? (1 marks)
+
+- based on the summary given above, the coefficient estimate for rm is 3.964627
+- this means that for every extra room per dwelling, the medv or median home value increases by about $3964.63
+- this assumes that all other factors / predictors / independent variables remain constant
+- so this means that houses with more rooms will become more valuable
+- this means that it makes more business sense to build more houses with more rooms
+- buyers are more likely to pay more for it and they can expect to sell it at a way higher price
+- this can be marketed to potential buyers as a lucrative investment
+
+
 5. Identify the top 2 predictors of the medv price based on variable importance
 analysis of your final model. (1 marks)
+
+- the top 2 predictors are rm (8.652778) and lstat (7.796054)
+
 6. What is the R-squared of your final model? Provide a business interpretation.
 (1 + 1 marks)
+
+- Multiple R-squared:  0.7482,	Adjusted R-squared:  0.7386 from the summary
+- roughly about 74% (73.86%) of the variation in the median house value (medv) can be explained by the 13 predictors in the model
+- from the business perspective, it means that the model is quite accurate, reliable and trustworthy
+- but it must be noted that about 26% of the variation is unexplained probably due to other hidden factors or randomness
+
+

@@ -59,3 +59,14 @@ train_r2
 test_r2
 train_r2 - test_r2
 
+
+#qn5
+library(caret)
+
+var_imp <- varImp(full_mdl)
+top2 <- var_imp$Overall %>% sort(decreasing = TRUE) %>% head(2)
+top2
+
+#can just use
+summary(full_mdl)
+#just take a look at the absolute t values
