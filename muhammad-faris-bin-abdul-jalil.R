@@ -48,6 +48,7 @@ test <- df[-train_idx, ]
 full_mdl <- lm(medv ~ ., data = train)
 summary(full_mdl) #qn2
 
+#qn3
 train_pred <- predict(full_mdl, newdata = train)
 test_pred <- predict(full_mdl, newdata = test)
 
@@ -56,5 +57,5 @@ test_r2 <- cor(test_pred, test$medv)^2
 
 train_r2
 test_r2
-
+train_r2 - test_r2
 

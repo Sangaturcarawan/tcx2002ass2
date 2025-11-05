@@ -60,10 +60,34 @@ Multiple R-squared:  0.7482,	Adjusted R-squared:  0.7386
 F-statistic: 78.15 on 13 and 342 DF,  p-value: < 2.2e-16
 
 - intercept estimate of 33.593363 means that when all other predictors are 0, the baseline of medv is about $33 593.36
-- crim estimate of -0.091542 shows that when the crime rate rises by 1%, the median home value decreases by $92.54, and crim variable is signficant 
+- crim estimate of -0.091542 shows that when the crime rate rises by 1%, the median home value decreases by $92.54, assuming all other predictors are constant and crim variable is signficant
+- ptratio estimate of -0.928753 means that larger class sizes would have a negative effect on home values
+- very low Pr(>|t|) valuptratioes (p<0.01) for rm, lstat, ptratio,nox and chas means they are statistically significant to medv
+- most predictors have very low p values (p < 0.05) except for age, indus and zn meaning most are statistically significant
+- F-statistic of 78.15 with a p value less than 2.2e-16 (p < 0.001) means that the overall model is statistically significant (predictors as a whole explain a significant portion of the variation in medv)
+- model's Adjusted R-squared value of 0.7386 indicates that the predictors together can explain about 73.86% of the variation in medv, which shows a strong fit for the real world data
+- residual standard error of 4.611 means that the predicted medv is expected to deviate from the actual ones by $4611
 
 3. What is the difference between your train and test accuracy. What does it tell
 you? (1 +1 marks)
+
+> train_pred <- predict(full_mdl, newdata = train)
+> test_pred <- predict(full_mdl, newdata = test)
+> train_r2 <- cor(train_pred, train$medv)^2
+> test_r2 <- cor(test_pred, test$medv)^2
+> train_r2
+[1] 0.7481554
+> test_r2
+[1] 0.7207317
+> train_r2 - test_r2
+[1] 0.02742374
+
+- The R squared for the training set is 0.7481554 which means that the model explains 74.8% of the variation in medv for the data it was trained on
+- The R squared for the testing set is 0.7207317 which means that the model explains 72.1% of the variation in the unseen data
+- a difference of 0.02742374 between these two values which is quite small means that the model performs well on the train and unseen data so it generalizes well and not overfitting
+- this model can be used to predict and estimate values for new properties well
+
+
 4. If you retain ‘rm’ in your final model, what is the coefficient for 'rm' (average
 rooms per dwelling). What is the correct business interpretation? (1 marks)
 5. Identify the top 2 predictors of the medv price based on variable importance
