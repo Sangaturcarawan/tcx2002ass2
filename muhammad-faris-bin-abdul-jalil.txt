@@ -1,3 +1,5 @@
+Case-1: Boston Housing Prices
+
 QUESTIONS (10 marks)
 [Answer these in your Answer document]
 1. After performing EDA on the Boston Housing dataset, which variable shows
@@ -114,3 +116,131 @@ analysis of your final model. (1 marks)
 - but it must be noted that about 26% of the variation is unexplained probably due to other hidden factors or randomness
 
 
+
+Case-2: Heart Disease Risk Prediction
+
+QUESTIONS (10 marks)
+[Answer these in your Answer document]
+1. After examining the target variable ‘AHD’ (heart disease), what is the exact
+class distribution (percentages for Yes/No)? Is this a balanced or imbalanced
+dataset? (1 mark)
+
+> table(df2$AHD)
+
+ No Yes 
+164 139 
+> prop.table(table(df2$AHD))
+
+       No       Yes 
+0.5412541 0.4587459 
+> prop.table(table(df2$AHD)) * 100
+
+      No      Yes 
+54.12541 45.87459 
+
+- This implies that the dataset is approximately balanced because the class distribution is almost 50:50
+- No AHD is 54% while Yes AHD is 46%, and they are quite balanced and not so skewed
+- the two classes are nearly equal in size so they are quite balanced
+
+
+2. Share your final fine-tuned logistic regression model summary below and
+provide interpretation of the summary in bullet points including significant
+predictors and their odds ratios. (1 + 2 marks)
+
+> summary(mdl2)
+
+Call:
+glm(formula = AHD ~ ., family = binomial, data = train2[, -1])
+
+Coefficients:
+                     Estimate Std. Error z value
+(Intercept)         -3.821249   3.123882  -1.223
+Age                 -0.020449   0.027698  -0.738
+Sex1                 1.148934   0.598034   1.921
+ChestPainnonanginal -2.227295   0.597094  -3.730
+ChestPainnontypical -0.792243   0.649839  -1.219
+ChestPaintypical    -2.489071   0.803574  -3.098
+RestBP               0.019707   0.013030   1.513
+Chol                 0.001748   0.004975   0.351
+Fbs1                -0.654345   0.634776  -1.031
+RestECG1            -0.066187   4.614172  -0.014
+RestECG2             0.878659   0.447962   1.961
+MaxHR               -0.011852   0.012825  -0.924
+ExAng1               0.657982   0.504000   1.306
+Oldpeak              0.545917   0.280377   1.947
+Slope2               1.384122   0.556719   2.486
+Slope3               0.259785   1.116505   0.233
+Ca1                  2.481900   0.580161   4.278
+Ca2                  3.240210   0.904466   3.582
+Ca3                  2.427108   0.953875   2.544
+Thalnormal           0.275711   1.000963   0.275
+Thalreversable       1.736081   0.975786   1.779
+                    Pr(>|z|)    
+(Intercept)         0.221240    
+Age                 0.460351    
+Sex1                0.054708 .  
+ChestPainnonanginal 0.000191 ***
+ChestPainnontypical 0.222792    
+ChestPaintypical    0.001952 ** 
+RestBP              0.130400    
+Chol                0.725303    
+Fbs1                0.302622    
+RestECG1            0.988555    
+RestECG2            0.049826 *  
+MaxHR               0.355409    
+ExAng1              0.191716    
+Oldpeak             0.051525 .  
+Slope2              0.012911 *  
+Slope3              0.816012    
+Ca1                 1.89e-05 ***
+Ca2                 0.000340 ***
+Ca3                 0.010944 *  
+Thalnormal          0.782974    
+Thalreversable      0.075213 .  
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 328.58  on 237  degrees of freedom
+Residual deviance: 146.10  on 217  degrees of freedom
+AIC: 188.1
+
+Number of Fisher Scoring iterations: 6
+
+> exp(coef(mdl2))
+        (Intercept)                 Age                Sex1 ChestPainnonanginal 
+         0.02190042          0.97975900          3.15482668          0.10781968 
+ChestPainnontypical    ChestPaintypical              RestBP                Chol 
+         0.45282780          0.08298706          1.01990296          1.00174964 
+               Fbs1            RestECG1            RestECG2               MaxHR 
+         0.51978259          0.93595552          2.40766853          0.98821766 
+             ExAng1             Oldpeak              Slope2              Slope3 
+         1.93089224          1.72619118          3.99132135          1.29665108 
+                Ca1                 Ca2                 Ca3          Thalnormal 
+        11.96397321         25.53907461         11.32608006          1.31746679 
+     Thalreversable 
+         5.67505655 
+
+
+- Chest Pain non-anginal has p value of 0.000191 and an estimate of -2.227295
+- this means that there is a strong negative association with AHD
+- Chest Pain typical: has a negative association
+- Rest ECG2  has a positive association
+- Slope2: has a positive association
+- Ca1,2,3 have strong positive association
+- list of significant predictors (p value < 0.05) and their odds ratio:
+  - ChestPainnonanginal: 0.10781968
+  - ChestPaintypical: 0.08298706
+  - RestECG2: 2.40766853
+  - Slope2: 3.99132135
+  - Ca1,2,3: 11.96397321, 25.53907461, 11.32608006
+
+3. Is your final model generalizable? (2 marks)
+4. If you retain ‘MaxHR’ in your final model, what is the odds ratio for ‘MaxHR’
+(maximum heart rate)? What is the correct clinical interpretation? (1 mark)
+5. Identify the top 2 predictors of heart disease risk based on variable importance
+analysis of your final model. (1 mark)
+6. What is the AUC (Area Under Curve) of your final model? Provide a clinical
+interpretation of this performance metric. (1 + 1 marks)
