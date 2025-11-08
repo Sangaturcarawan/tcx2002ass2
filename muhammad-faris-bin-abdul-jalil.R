@@ -133,3 +133,23 @@ exp(confint(mdl2))
 pred_probs <- predict(mdl2, newdata = test2[, -1], type = "response")
 
 pred_classes <- ifelse(pred_probs > 0.5, "Yes", "No")
+
+pred_probs
+pred_classes
+
+library(caret)
+confusionMatrix(
+  factor(pred_classes, levels = c("No", "Yes")),
+  test2$AHD,
+  positive = "Yes"
+)
+20/27
+31/32
+
+#qn4
+
+summary(mdl2)
+
+exp(coef(mdl2)["MaxHR"])
+
+(1 - exp(coef(mdl2)["MaxHR"])) * 100
