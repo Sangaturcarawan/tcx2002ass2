@@ -342,5 +342,106 @@ Number of Fisher Scoring iterations: 6
 
 5. Identify the top 2 predictors of heart disease risk based on variable importance
 analysis of your final model. (1 mark)
+
+> summary(mdl2)
+
+Call:
+glm(formula = AHD ~ ., family = binomial, data = train2[, -1])
+
+Coefficients:
+                     Estimate Std. Error z value Pr(>|z|)
+(Intercept)         -3.821249   3.123882  -1.223 0.221240
+Age                 -0.020449   0.027698  -0.738 0.460351
+Sex1                 1.148934   0.598034   1.921 0.054708
+ChestPainnonanginal -2.227295   0.597094  -3.730 0.000191
+ChestPainnontypical -0.792243   0.649839  -1.219 0.222792
+ChestPaintypical    -2.489071   0.803574  -3.098 0.001952
+RestBP               0.019707   0.013030   1.513 0.130400
+Chol                 0.001748   0.004975   0.351 0.725303
+Fbs1                -0.654345   0.634776  -1.031 0.302622
+RestECG1            -0.066187   4.614172  -0.014 0.988555
+RestECG2             0.878659   0.447962   1.961 0.049826
+MaxHR               -0.011852   0.012825  -0.924 0.355409
+ExAng1               0.657982   0.504000   1.306 0.191716
+Oldpeak              0.545917   0.280377   1.947 0.051525
+Slope2               1.384122   0.556719   2.486 0.012911
+Slope3               0.259785   1.116505   0.233 0.816012
+Ca1                  2.481900   0.580161   4.278 1.89e-05
+Ca2                  3.240210   0.904466   3.582 0.000340
+Ca3                  2.427108   0.953875   2.544 0.010944
+Thalnormal           0.275711   1.000963   0.275 0.782974
+Thalreversable       1.736081   0.975786   1.779 0.075213
+                       
+(Intercept)            
+Age                    
+Sex1                .  
+ChestPainnonanginal ***
+ChestPainnontypical    
+ChestPaintypical    ** 
+RestBP                 
+Chol                   
+Fbs1                   
+RestECG1               
+RestECG2            *  
+MaxHR                  
+ExAng1                 
+Oldpeak             .  
+Slope2              *  
+Slope3                 
+Ca1                 ***
+Ca2                 ***
+Ca3                 *  
+Thalnormal             
+Thalreversable      .  
+---
+Signif. codes:  
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 328.58  on 237  degrees of freedom
+Residual deviance: 146.10  on 217  degrees of freedom
+AIC: 188.1
+
+Number of Fisher Scoring iterations: 6
+
+> 
+> exp(coef(mdl2))
+        (Intercept)                 Age                Sex1 ChestPainnonanginal 
+         0.02190042          0.97975900          3.15482668          0.10781968 
+ChestPainnontypical    ChestPaintypical              RestBP                Chol 
+         0.45282780          0.08298706          1.01990296          1.00174964 
+               Fbs1            RestECG1            RestECG2               MaxHR 
+         0.51978259          0.93595552          2.40766853          0.98821766 
+             ExAng1             Oldpeak              Slope2              Slope3 
+         1.93089224          1.72619118          3.99132135          1.29665108 
+                Ca1                 Ca2                 Ca3          Thalnormal 
+        11.96397321         25.53907461         11.32608006          1.31746679 
+     Thalreversable 
+         5.67505655
+         
+         
+- based on the above output, 3 predictors are statistically significant (p < 0.05, with ***)
+- these are:
+  - ChestPainnonanginal
+  - Ca1
+  - Ca2
+- but if we were to take a look at their odds ratio:
+  - Ca1 is 11.96397321
+  - Ca2 is 25.53907461
+  - ChestPainnonanginal is 0.10781968
+- this implies that Ca1 and Ca2 both have the most impact due to them having the top two odds ratio
+- so in simple terms: the number of major blood vessels affected are top predictors of heart disease
+
 6. What is the AUC (Area Under Curve) of your final model? Provide a clinical
 interpretation of this performance metric. (1 + 1 marks)
+
+> auc(roc_obj)
+Area under the curve: 0.912
+
+- The AUC of the final model is 0.912
+- this means there is very good discrimination between patients with and without heart disease
+- so the model can correctly tell apart patients with heart disease from those who do not about 91.2% of the time
+- this indicates that the model is reliable and can be used for health screening especially those at a great risk of getting it
+- clinically, it allows doctors to quickly identify patients early and give early intervention and do more testing
+- in simple terms, it allows for people more likely to get the disease to be identified earlier so that they can be treated faster so they do not die
