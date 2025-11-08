@@ -70,3 +70,86 @@ top2
 #can just use
 summary(full_mdl)
 #just take a look at the absolute t values
+
+#case 2
+
+#prep
+set.seed(123)
+url2 <- "https://raw.githubusercontent.com/rashida048/Datasets/master/Heart.csv"
+df2 <- read.csv(url2)
+head(df2)
+str(df2)
+sum(is.na(df2)) # 6 missing values altogether
+colSums(is.na(df2)) # Ca has 4 missing values, Thal has 2
+unique(df2$Sex)
+
+#factorise so that later on for making the model it would not explode
+df2$Sex <- factor(df2$Sex)
+df2$ChestPain <- factor(df2$ChestPain)
+str(df2$ChestPain)
+class(df2$ChestPain)
+levels(df2$ChestPain)
+df2$Fbs <- factor(df2$Fbs)
+df2$RestECG <- factor(df2$RestECG)
+df2$ExAng <- factor(df2$ExAng)
+df2$Slope <- factor(df2$Slope)
+df2$Ca <- factor(df2$Ca)
+df2$Thal <- factor(df2$Thal)
+df2$AHD <- factor(df2$AHD, levels = c("No","Yes"))
+
+#qn 1
+summary(df2)
+table(df2$AHD)
+prop.table(table(df2$AHD)) * 100
+
+#qn 2
+#clean the data first by handling missing values
+unique(df2$Sex)
+sum(is.na(df2))
+colSums(is.na(df2))
+#omit because missing values are small
+6/303*100
+# % missing values quite small
+df2 <- na.omit(df2)
+sum(is.na(df2))
+colSums(is.na(df2))
+
+library(caret)
+set.seed(123)
+train2_idx <- createDataPartition(df2$AHD, p = 0.8, list = FALSE)
+train2_idx
+train2 <- df2[train2_idx, ]
+test2 <- df2[-train2_idx, ]
+
+mdl2 <- glm(AHD ~ ., data = train2[, -1], family = binomial) #remove column 1 because not needed
+summary(mdl2)
+
+#odds ratio
+exp(coef(mdl2))
+exp(confint(mdl2))
+
+#qn3
+
+pred_probs <- predict(mdl2, newdata = test2[, -1], type = "response")
+
+pred_classes <- ifelse(pred_probs > 0.5, "Yes", "No")
+
+pred_probs
+pred_classes
+
+library(caret)
+confusionMatrix(
+  factor(pred_classes, levels = c("No", "Yes")),
+  test2$AHD,
+  positive = "Yes"
+)
+20/27
+31/32
+
+#qn4
+
+summary(mdl2)
+
+exp(coef(mdl2)["MaxHR"])
+
+(1 - exp(coef(mdl2)["MaxHR"])) * 100
